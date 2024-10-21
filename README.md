@@ -4,6 +4,7 @@
 
 - N-tier Architektur
 - Repository Pattern
+- Dependency Injection
 - TempData/ViewData/ViewBag in .NET Core
 - API Controller with Razor Pages
 - SweetAlert, RichTextEditor, DataTables with .NET Core
