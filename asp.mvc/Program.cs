@@ -1,7 +1,6 @@
+using asp.mvc.Data;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
-using Serilog.Extensions.Hosting;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +11,9 @@ builder.Host.UseSerilog((context, services, configuration) => configuration
     .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day));
 
 // Add services to the container.
+builder.Services.AddDbContext<ApplicationDbContext>(options => 
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
