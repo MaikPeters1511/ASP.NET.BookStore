@@ -8,14 +8,8 @@ namespace asp.mvc.Controllers
     {
         private readonly ApplicationDbContext context = context;
 
-        public IEnumerable<Category> GetCategoriesList()
-        {
-            return context.Categories.ToList();
-        }
+        public IEnumerable<Category> GetCategoriesList() => context.Categories;
 
-        public IActionResult Index(IEnumerable<Category> CategoriesList)
-        {
-            return View(CategoriesList);
-        }
+        public IActionResult Index() => View(GetCategoriesList());
     }
 }
