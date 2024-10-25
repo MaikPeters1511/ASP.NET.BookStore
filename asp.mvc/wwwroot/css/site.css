@@ -20,3 +20,6 @@ html {
 body {
   margin-bottom: 60px;
 }
+.cell-width {
+  width: 50%;
+}

@@ -7,20 +7,22 @@
 <h1>Index Gategory</h1>
 
 
-<tabel class="table table-bordered table-striped w-100">
+<table class="table table-bordered table-striped w-100">
     <thead>
         <tr>
             <th>Id</th>
             <th>Name</th>
+            <th>Display Order</th>
         <tr />
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.Id</td>
-                <td>@item.Name</td>
+                <td class="cell-width">@item.Id</td>
+                <td class="cell-width">@item.Name</td>
+                <td class="cell-width">@item.DisplayOrder</td>
             </tr>
         }
     </tbody>
-</tabel>
+</table>
