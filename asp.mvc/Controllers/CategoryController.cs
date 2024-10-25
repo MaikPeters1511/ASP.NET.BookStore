@@ -9,5 +9,25 @@ namespace asp.mvc.Controllers
         public IEnumerable<Category> GetCategoriesList() => context.Categories;
 
         public IActionResult Index() => View(GetCategoriesList());
+
+        // GET: Category/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Category/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                context.Categories.Add(category);
+                context.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(category);
+        }
     }
 }
