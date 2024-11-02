@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Mvc;
 using asp.mvc.Models;
 
@@ -13,6 +14,7 @@ public class HomeController : Controller
         _logger = logger;
     }
 
+    [SuppressMessage("ReSharper.DPA", "DPA0010: ASP issues")]
     public IActionResult Index()
     {
         return View();
