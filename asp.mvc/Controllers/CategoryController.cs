@@ -1,6 +1,7 @@
 ﻿using asp.mvc.Data;
 using asp.mvc.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace asp.mvc.Controllers
 {
@@ -34,6 +35,78 @@ namespace asp.mvc.Controllers
                 default:
                     return View(category);
             }
+        }
+
+        // GET: Category/Edit/1
+        public IActionResult Edit(int? id)
+        {
+            if (id is null or 0)
+            {
+                return NotFound();
+            }
+            var category = context.Categories.Find(id);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+            return View(category);
+        }
+
+        // POST: Category/Edit/1
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Category category)
+        {
+            if (category.Name == category.DisplayOrder.ToString())
+            {
+                ModelState.AddModelError("Name", "The Display Order cannot exactly match the Name.");
+            }
+            switch (ModelState.IsValid)
+            {
+                case true:
+                    context.Categories.Update(category);
+                    context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                default:
+                    return View(category);
+            }
+        }
+
+        // GET: Category/Delete/1
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var category = context.Categories.Find(id);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+            return View(category);
+        }
+
+        // POST: Category/Delete/1
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var category = context.Categories.Find(id);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+            context.Categories.Remove(category);
+            context.SaveChanges();
+            return RedirectToAction(nameof(Index));
         }
     }
 }
