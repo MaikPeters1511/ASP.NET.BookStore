@@ -21,13 +21,15 @@ namespace asp.mvc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Category category)
         {
-            if (ModelState.IsValid)
+            switch (ModelState.IsValid)
             {
-                context.Categories.Add(category);
-                context.SaveChanges();
-                return RedirectToAction(nameof(Index));
+                case true:
+                    context.Categories.Add(category);
+                    context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                default:
+                    return View(category);
             }
-            return View(category);
         }
     }
 }
