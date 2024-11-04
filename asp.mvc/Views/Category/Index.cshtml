@@ -18,12 +18,12 @@
 </div>
 <table class="table table-bordered table-striped mt-3" style="width: 100%">
     <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Display Order</th>
-            <th>Edit</th>
-        <tr/>
+    <tr>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Display Order</th>
+    <th>Edit</th>
+    <tr/>
     </thead>
     <tbody>
     @foreach (var item in Model)
@@ -45,3 +45,16 @@
     }
     </tbody>
 </table>
+
+@section Scripts {
+    <script>
+        window.setTimeout(function() {
+            let alert = document.querySelector('.alert');
+            if (alert) {
+                alert.classList.remove('show');
+                alert.classList.add('fade');
+                setTimeout(() => alert.remove(), 1000); // Entfernt das Element nach dem Fade-Out
+            }
+        }, 6000);
+    </script>
+}

@@ -31,6 +31,7 @@ namespace asp.mvc.Controllers
                 case true:
                     context.Categories.Add(category);
                     context.SaveChangesAsync();
+                    TempData["Success"] = "Category created successfully.";
                     return RedirectToAction(nameof(Index));
                 default:
                     return View(category);
@@ -67,6 +68,7 @@ namespace asp.mvc.Controllers
                 case true:
                     context.Categories.Update(category);
                     context.SaveChangesAsync();
+                    TempData["Success"] = "Category updated successfully.";
                     return RedirectToAction(nameof(Index));
                 default:
                     return View(category);
@@ -106,6 +108,7 @@ namespace asp.mvc.Controllers
             }
             context.Categories.Remove(category);
             context.SaveChanges();
+            TempData["Success"] = "Category deleted successfully.";
             return RedirectToAction(nameof(Index));
         }
     }

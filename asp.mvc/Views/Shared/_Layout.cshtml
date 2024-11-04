@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/css/bootstrapTheme.min.css"/>
     <link rel="stylesheet" href="~/lib/bootstrapicons/font/bootstrap-icons.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/lib/toastr/toastr.min.css" />
 </head>
 <body>
 <header>
@@ -54,6 +55,7 @@
 </header>
 <div class="container">
     <main role="main" class="pb-3">
+        <partial name="_Notification" />
         @RenderBody()
     </main>
 </div>
