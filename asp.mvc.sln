@@ -5,7 +5,7 @@ VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "asp.mvc", "asp.mvc\asp.mvc.csproj", "{6FFA96D8-0927-46D5-87AD-4AA5BB700973}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abby", "Abby\Abby.csproj", "{CCA50BA8-AAF4-47C1-A85C-93740EDE0D43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Abby", "Abby\Abby.csproj", "{CCA50BA8-AAF4-47C1-A85C-93740EDE0D43}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
