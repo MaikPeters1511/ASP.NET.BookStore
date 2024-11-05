@@ -26,12 +26,11 @@
     }
 
     function ViewModel() {
-        var self = this;
         self.categories = ko.observableArray([]);
 
         self.loadCategories = function() {
             $.getJSON('@Url.Page("/Categories/Index", "GetCategories")', function(data) {
-                var mappedCategories = $.map(data, function(item) { return new Category(item); });
+                const mappedCategories = $.map(data, function(item) { return new Category(item); });
                 self.categories(mappedCategories);
             });
         };

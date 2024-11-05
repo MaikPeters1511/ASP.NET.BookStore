@@ -6,14 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Abby.Pages.Categories
 {
-    public class IndexModel : PageModel
+    public class IndexModel(ApplicationDbContext context) : PageModel
     {
-        private readonly ApplicationDbContext _context;
-
-        public IndexModel(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        private readonly ApplicationDbContext _context = context;
 
         public IList<Category> Categories { get; set; }
 
