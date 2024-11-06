@@ -1,5 +1,5 @@
-﻿using asp.mvc.Data;
-using asp.mvc.Models;
+﻿using asp.DataAccess.Data;
+using asp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

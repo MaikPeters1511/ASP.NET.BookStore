@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace asp.mvc.Models;
+namespace asp.Models;
 
 public class Category
 {
