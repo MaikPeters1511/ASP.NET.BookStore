@@ -10,7 +10,7 @@ namespace Abby.Pages.Categories
     {
         private readonly ApplicationDbContext _context = context;
 
-        public IList<Category> Categories { get; set; }
+        public IEnumerable<Category> Categories { get; set; }
 
         public async Task OnGetAsync()
         {
