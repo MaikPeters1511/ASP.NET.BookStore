@@ -7,7 +7,9 @@ namespace asp.mvc.Controllers
 {
     public class CategoryController(ApplicationDbContext context) : Controller
     {
-        public IEnumerable<Category> GetCategoriesList() => context.Categories;
+        private readonly ApplicationDbContext _context = context;
+
+        public IEnumerable<Category> GetCategoriesList() => _context.Categories;
 
         public IActionResult Index() => View(GetCategoriesList());
 
@@ -20,32 +22,30 @@ namespace asp.mvc.Controllers
         // POST: Category/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Category category)
+        public async Task<IActionResult> Create(Category category)
         {
             if (category.Name == category.DisplayOrder.ToString())
             {
                 ModelState.AddModelError("Name", "The Display Order cannot exactly match the Name.");
             }
-            switch (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                case true:
-                    context.Categories.Add(category);
-                    context.SaveChangesAsync();
-                    TempData["Success"] = "Category created successfully.";
-                    return RedirectToAction(nameof(Index));
-                default:
-                    return View(category);
+                _context.Categories.Add(category);
+                await _context.SaveChangesAsync();
+                TempData["Success"] = "Category created successfully.";
+                return RedirectToAction(nameof(Index));
             }
+            return View(category);
         }
 
         // GET: Category/Edit/1
         public IActionResult Edit(int? id)
         {
-            if (id is null or 0)
+            if (id == null || id == 0)
             {
                 return NotFound();
             }
-            var category = context.Categories.Find(id);
+            var category = _context.Categories.Find(id);
 
             if (category == null)
             {
@@ -57,22 +57,20 @@ namespace asp.mvc.Controllers
         // POST: Category/Edit/1
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Category category)
+        public async Task<IActionResult> Edit(Category category)
         {
             if (category.Name == category.DisplayOrder.ToString())
             {
                 ModelState.AddModelError("Name", "The Display Order cannot exactly match the Name.");
             }
-            switch (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                case true:
-                    context.Categories.Update(category);
-                    context.SaveChangesAsync();
-                    TempData["Success"] = "Category updated successfully.";
-                    return RedirectToAction(nameof(Index));
-                default:
-                    return View(category);
+                _context.Categories.Update(category);
+                await _context.SaveChangesAsync();
+                TempData["Success"] = "Category updated successfully.";
+                return RedirectToAction(nameof(Index));
             }
+            return View(category);
         }
 
         // GET: Category/Delete/1
@@ -82,7 +80,7 @@ namespace asp.mvc.Controllers
             {
                 return NotFound();
             }
-            var category = context.Categories.Find(id);
+            var category = _context.Categories.Find(id);
 
             if (category == null)
             {
@@ -94,22 +92,33 @@ namespace asp.mvc.Controllers
         // POST: Category/Delete/1
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int? id)
+        public async Task<IActionResult> DeleteConfirmed(int? id)
         {
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            var category = context.Categories.Find(id);
+            var category = _context.Categories.Find(id);
 
             if (category == null)
             {
                 return NotFound();
             }
-            context.Categories.Remove(category);
-            context.SaveChanges();
+            _context.Categories.Remove(category);
+            await _context.SaveChangesAsync();
             TempData["Success"] = "Category deleted successfully.";
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetCategories()
+        {
+            var categories = await _context.Categories
+                .Select(c => new { c.Id, c.Name, c.DisplayOrder })
+                .ToListAsync();
+
+            return new JsonResult(categories);
+        }
     }
 }
+

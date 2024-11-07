@@ -25,30 +25,51 @@
 </div>
 <table class="table table-bordered table-striped mt-3" style="width: 100%">
     <thead>
-    <tr>
-    <th>Id</th>
-    <th>Name</th>
-    <th>Display Order</th>
-    <th>Edit</th>
-    <tr/>
-    </thead>
-    <tbody>
-    @foreach (var item in Model)
-    {
         <tr>
-            <td style="width: 10%">@item.Id</td>
-            <td class="cell-width">@item.Name</td>
-            <td style="width: 20%">@item.DisplayOrder</td>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Display Order</th>
+            <th>Edit</th>
+        <tr />
+    </thead>
+    <tbody data-bind="foreach: categories">
+        <tr>
+            <td style="width: 10%" data-bind="text: id"></td>
+            <td class="cell-width" data-bind="text: name"></td>
+            <td style="width: 20%" data-bind="text: displayOrder"></td>
             <td class="w-100 btn-group" role="group">
-                <a asp-controller="Category" asp-action="Edit" asp-route-id="@item.Id"
-                   class="btn btn-primary mx-2">
+                <a data-bind="attr: { href: '/Category/Edit/' + id() }" class="btn btn-primary mx-2">
                     <i class="bi bi-pencil-square"></i> Edit
                 </a>
-                <a asp-controller="Category" asp-action="Delete" asp-route-id="@item.Id"
-                   class="btn btn-danger mx-2">
-                    <i class="bi bi-trash"></i> Delete</a>
+                <a data-bind="attr: { href: '/Category/Delete/' + id() }" class="btn btn-danger mx-2">
+                    <i class="bi bi-trash"></i> Delete
+                </a>
             </td>
         </tr>
-    }
     </tbody>
 </table>
+
+<script>
+    function Category(data) {
+        this.id = ko.observable(data.id);
+        this.name = ko.observable(data.name);
+        this.displayOrder = ko.observable(data.displayOrder);
+    }
+
+    function ViewModel() {
+        let self = this;
+        self.categories = ko.observableArray([]);
+
+        self.loadCategories = function () {
+            $.getJSON('@Url.Action("GetCategories", "Category")', function (data) {
+                let mappedCategories = $.map(data, function (item) { return new Category(item); });
+                self.categories(mappedCategories);
+            });
+        };
+
+        self.loadCategories();
+    }
+
+    ko.applyBindings(new ViewModel());
+</script>
+

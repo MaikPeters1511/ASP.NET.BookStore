@@ -1,7 +1,7 @@
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using asp.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace asp.mvc.Controllers;
 
