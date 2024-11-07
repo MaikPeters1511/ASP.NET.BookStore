@@ -11,7 +11,7 @@ builder.Host.UseSerilog((context, services, configuration) => configuration
     .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day));
 
 // Add services to the container.
-builder.Services.AddDbContext<ApplicationDbContext>(options => 
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 builder.Services.AddControllersWithViews();
@@ -40,5 +40,5 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.Run();
+await app.RunAsync();
 Log.CloseAndFlush();
