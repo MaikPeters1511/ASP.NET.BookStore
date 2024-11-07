@@ -41,4 +41,4 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 await app.RunAsync();
-Log.CloseAndFlush();
+await Log.CloseAndFlushAsync();
