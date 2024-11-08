@@ -49,27 +49,5 @@
     </tbody>
 </table>
 
-<script>
-    function Category(data) {
-        this.id = ko.observable(data.id);
-        this.name = ko.observable(data.name);
-        this.displayOrder = ko.observable(data.displayOrder);
-    }
-
-    function ViewModel() {
-        let self = this;
-        self.categories = ko.observableArray([]);
-
-        self.loadCategories = function () {
-            $.getJSON('@Url.Action("GetCategories", "Category")', function (data) {
-                let mappedCategories = $.map(data, function (item) { return new Category(item); });
-                self.categories(mappedCategories);
-            });
-        };
-
-        self.loadCategories();
-    }
-
-    ko.applyBindings(new ViewModel());
-</script>
-
+<script src="~/lib/knockout.mapping/knockout.mapping.min.js"></script>
+<script src="~/js/category.js"></script>

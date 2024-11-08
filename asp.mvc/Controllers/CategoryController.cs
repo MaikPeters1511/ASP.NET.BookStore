@@ -39,13 +39,13 @@ namespace asp.mvc.Controllers
         }
 
         // GET: Category/Edit/1
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            var category = _context.Categories.Find(id);
+            var category = await _context.Categories.FindAsync(id);
 
             if (category == null)
             {
@@ -57,8 +57,13 @@ namespace asp.mvc.Controllers
         // POST: Category/Edit/1
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Category category)
+        public async Task<IActionResult> Edit(int id, Category category)
         {
+            if (id != category.Id)
+            {
+                return BadRequest();
+            }
+
             if (category.Name == category.DisplayOrder.ToString())
             {
                 ModelState.AddModelError("Name", "The Display Order cannot exactly match the Name.");
@@ -74,13 +79,13 @@ namespace asp.mvc.Controllers
         }
 
         // GET: Category/Delete/1
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            var category = _context.Categories.Find(id);
+            var category = await _context.Categories.FindAsync(id);
 
             if (category == null)
             {
@@ -98,7 +103,7 @@ namespace asp.mvc.Controllers
             {
                 return NotFound();
             }
-            var category = _context.Categories.Find(id);
+            var category = await _context.Categories.FindAsync(id);
 
             if (category == null)
             {
@@ -121,4 +126,3 @@ namespace asp.mvc.Controllers
         }
     }
 }
-
