@@ -1,15 +1,17 @@
-﻿using asp.DataAccess.Data;
+﻿using System.Diagnostics.CodeAnalysis;
+using asp.DataAccess.Data;
+using asp.DataAccess.Repository.IRepository;
 using asp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace asp.mvc.Controllers;
 
-public class CategoryController(ApplicationDbContext context) : Controller
+public class CategoryController(IGategoryRepository context) : Controller
 {
-    private readonly ApplicationDbContext _context = context;
+    private readonly IGategoryRepository _context = context;
 
-    public IEnumerable<Category> GetCategoriesList() => _context.Categories;
+    public IEnumerable<Category> GetCategoriesList() => _context.GetAll();
 
     public IActionResult Index() => View(GetCategoriesList());
 
@@ -22,7 +24,7 @@ public class CategoryController(ApplicationDbContext context) : Controller
     // POST: Category/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(Category category)
+    public IActionResult Create(Category category)
     {
         if (category.Name == category.DisplayOrder.ToString())
         {
@@ -30,8 +32,8 @@ public class CategoryController(ApplicationDbContext context) : Controller
         }
         if (ModelState.IsValid)
         {
-            _context.Categories.Add(category);
-            await _context.SaveChangesAsync();
+            _context.Add(category);
+            _context.Update(category);
             TempData["Success"] = "Category created successfully.";
             return RedirectToAction(nameof(Index));
         }
@@ -45,7 +47,7 @@ public class CategoryController(ApplicationDbContext context) : Controller
         {
             return NotFound();
         }
-        var category = await _context.Categories.FindAsync(id);
+        var category = await _context.GetFirstOrDefault(x=>x.Name == "id");
 
         if (category == null)
         {
@@ -57,7 +59,7 @@ public class CategoryController(ApplicationDbContext context) : Controller
     // POST: Category/Edit/1
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, Category category)
+    public IActionResult Edit(int id, Category category)
     {
         if (id != category.Id)
         {
@@ -70,8 +72,8 @@ public class CategoryController(ApplicationDbContext context) : Controller
         }
         if (ModelState.IsValid)
         {
-            _context.Categories.Update(category);
-            await _context.SaveChangesAsync();
+            _context.Update(category);
+            _context.Save();
             TempData["Success"] = "Category updated successfully.";
             return RedirectToAction(nameof(Index));
         }
@@ -85,7 +87,7 @@ public class CategoryController(ApplicationDbContext context) : Controller
         {
             return NotFound();
         }
-        var category = await _context.Categories.FindAsync(id);
+        var category = await _context.GetFirstOrDefault(x=>x.Name == "id");
 
         if (category == null)
         {
@@ -103,24 +105,23 @@ public class CategoryController(ApplicationDbContext context) : Controller
         {
             return NotFound();
         }
-        var category = await _context.Categories.FindAsync(id);
+        var category = await _context.GetFirstOrDefault(x=>x.Name == "id");
 
         if (category == null)
         {
             return NotFound();
         }
-        _context.Categories.Remove(category);
-        await _context.SaveChangesAsync();
+        _context.Remove(category);
+        _context.Save();
         TempData["Success"] = "Category deleted successfully.";
         return RedirectToAction(nameof(Index));
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetCategories()
+    public IActionResult GetCategories()
     {
-        var categories = await _context.Categories
-            .Select(c => new { c.Id, c.Name, c.DisplayOrder })
-            .ToListAsync();
+        var categories = _context.GetAll()
+            .Select(c => new { c.Id, c.Name, c.DisplayOrder });
 
         return new JsonResult(categories);
     }
