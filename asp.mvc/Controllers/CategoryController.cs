@@ -1,17 +1,14 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using asp.DataAccess.Data;
-using asp.DataAccess.Repository.IRepository;
+﻿using asp.DataAccess.Repository.IRepository;
 using asp.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace asp.mvc.Controllers;
 
-public class CategoryController(IGategoryRepository context) : Controller
+public class CategoryController(IUnitOfWork unitOfWork) : Controller
 {
-    private readonly IGategoryRepository _context = context;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
-    public IEnumerable<Category> GetCategoriesList() => _context.GetAll();
+    public IEnumerable<Category> GetCategoriesList() => _unitOfWork.Category.GetAll();
 
     public IActionResult Index() => View(GetCategoriesList());
 
@@ -32,8 +29,8 @@ public class CategoryController(IGategoryRepository context) : Controller
         }
         if (ModelState.IsValid)
         {
-            _context.Add(category);
-            _context.Update(category);
+            _unitOfWork.Category.Add(category);
+            _unitOfWork.Save();
             TempData["Success"] = "Category created successfully.";
             return RedirectToAction(nameof(Index));
         }
@@ -47,7 +44,7 @@ public class CategoryController(IGategoryRepository context) : Controller
         {
             return NotFound();
         }
-        var category = await _context.GetFirstOrDefault(x=>x.Name == "id");
+        var category = await _unitOfWork.Category.GetFirstOrDefault(x => x.Id == id);
 
         if (category == null)
         {
@@ -59,21 +56,16 @@ public class CategoryController(IGategoryRepository context) : Controller
     // POST: Category/Edit/1
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Edit(int id, Category category)
+    public IActionResult Edit(Category category)
     {
-        if (id != category.Id)
-        {
-            return BadRequest();
-        }
-
         if (category.Name == category.DisplayOrder.ToString())
         {
             ModelState.AddModelError("Name", "The Display Order cannot exactly match the Name.");
         }
         if (ModelState.IsValid)
         {
-            _context.Update(category);
-            _context.Save();
+            _unitOfWork.Category.Update(category);
+            _unitOfWork.Save();
             TempData["Success"] = "Category updated successfully.";
             return RedirectToAction(nameof(Index));
         }
@@ -87,7 +79,7 @@ public class CategoryController(IGategoryRepository context) : Controller
         {
             return NotFound();
         }
-        var category = await _context.GetFirstOrDefault(x=>x.Name == "id");
+        var category = await _unitOfWork.Category.GetFirstOrDefault(x => x.Id == id);
 
         if (category == null)
         {
@@ -105,14 +97,14 @@ public class CategoryController(IGategoryRepository context) : Controller
         {
             return NotFound();
         }
-        var category = await _context.GetFirstOrDefault(x=>x.Name == "id");
+        var category = await _unitOfWork.Category.GetFirstOrDefault(x => x.Id == id);
 
         if (category == null)
         {
             return NotFound();
         }
-        _context.Remove(category);
-        _context.Save();
+        _unitOfWork.Category.Remove(category);
+        _unitOfWork.Save();
         TempData["Success"] = "Category deleted successfully.";
         return RedirectToAction(nameof(Index));
     }
@@ -120,7 +112,7 @@ public class CategoryController(IGategoryRepository context) : Controller
     [HttpGet]
     public IActionResult GetCategories()
     {
-        var categories = _context.GetAll()
+        var categories = _unitOfWork.Category.GetAll()
             .Select(c => new { c.Id, c.Name, c.DisplayOrder });
 
         return new JsonResult(categories);

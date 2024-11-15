@@ -1,7 +1,6 @@
 using asp.DataAccess.Data;
 using asp.DataAccess.Repository;
 using asp.DataAccess.Repository.IRepository;
-using asp.Models;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -18,9 +17,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
     x => x.MigrationsAssembly("asp.mvc"))
 );
-builder.Services.AddScoped<IGategoryRepository, CategoryRepository>();
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 var app = builder.Build();
