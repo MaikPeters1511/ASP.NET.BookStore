@@ -1,8 +1,7 @@
-﻿namespace asp.DataAccess.Repository.IRepository
+﻿namespace asp.DataAccess.Repository.IRepository;
+
+public interface IUnitOfWork
 {
-    public interface IUnitOfWork
-    {
-        IGategoryRepository Category { get; }
-        void Save();
-    }
+	IGategoryRepository Category { get; }
+	void Save();
 }
