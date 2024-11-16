@@ -3,6 +3,8 @@
     public interface IUnitOfWork
     {
         IGategoryRepository Category { get; }
+        ICoverTypeRepository CoverType { get; }
+
         void Save();
     }
 }
