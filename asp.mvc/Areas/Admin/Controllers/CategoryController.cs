@@ -3,8 +3,9 @@ using asp.DataAccess.Repository.IRepository;
 using asp.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace asp.mvc.Controllers;
+namespace asp.mvc.Areas.Admin.Controllers;
 
+[Area("Admin")]
 public class CategoryController(IUnitOfWork unitOfWork) : Controller
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
