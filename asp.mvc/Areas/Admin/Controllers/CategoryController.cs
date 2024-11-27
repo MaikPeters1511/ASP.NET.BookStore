@@ -109,6 +109,7 @@ public class CategoryController(IUnitOfWork unitOfWork) : Controller
     }
 
     [HttpGet]
+    [Route("Admin/Category/GetCategories")]
     public IActionResult GetCategories()
     {
         var categories = _unitOfWork.Category.GetAll()

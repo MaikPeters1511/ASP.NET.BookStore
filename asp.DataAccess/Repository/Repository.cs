@@ -20,7 +20,7 @@ public class Repository<T>(ApplicationDbContext? context) : IRepository<T> where
 	public IEnumerable<T> GetAll()
 	{
 		IQueryable<T> query = _dbSet;
-		return [.. query];
+		return query.ToList();
 	}
 
 	public void Add(T entity) => _dbSet.Add(entity);

@@ -3,10 +3,13 @@
     self.categories = ko.observableArray([]);
 
     self.loadCategories = function () {
-        $.getJSON('/Category/GetCategories', function (data) {
-            let mappedCategories = ko.mapping.fromJS(data);
-            self.categories(mappedCategories());
-        });
+        fetch('/Admin/Category/GetCategories')
+            .then(response => response.json())
+            .then(data => {
+                let mappedCategories = ko.mapping.fromJS(data);
+                self.categories(mappedCategories());
+            })
+            .catch(error => console.error('Error loading categories:', error));
     };
 
     self.loadCategories();
