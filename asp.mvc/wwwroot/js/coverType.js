@@ -1,18 +1,18 @@
 ﻿function ViewModel() {
     let self = this;
-    self.categories = ko.observableArray([]);
+    self.coverType = ko.observableArray([]);
 
-    self.loadCategories = function () {
-        fetch('/Admin/Category/GetCategories')
+    self.loadCoverType = function () {
+        fetch('/Admin/CoverType/GetCoverType')
             .then(response => response.json())
             .then(data => {
-                let mappedCategories = ko.mapping.fromJS(data);
-                self.categories(mappedCategories());
+                let mappedCoverType = ko.mapping.fromJS(data);
+                self.coverType(mappedCoverType());
             })
-            .catch(error => console.error('Error loading categories:', error));
+            .catch(error => console.error('Error loading covertype:', error));
     };
 
-    self.loadCategories();
+    self.loadCoverType();
 }
 
 ko.applyBindings(new ViewModel());

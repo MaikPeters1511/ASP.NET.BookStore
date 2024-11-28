@@ -1,6 +1,6 @@
-﻿@model IEnumerable<Category>
+﻿@model IEnumerable<CoverType>
 @{
-    ViewData["Title"] = "Index Category";
+    ViewData["Title"] = "Index CoverType";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
@@ -14,11 +14,11 @@
 <div class="container p-3">
     <div class="row pt-3">
         <div class="col-6">
-            <h2 class="text-primary">Category List</h2>
+            <h2 class="text-primary">CoverType List</h2>
         </div>
         <div class="col-6 text-end">
-            <a asp-controller="Category" asp-action="Create" class="btn btn-primary float-right">
-                <i class="bi bi-plus-circle pt-1">&nbsp;Create New Category</i>
+            <a asp-controller="CoverType" asp-action="Create" class="btn btn-primary float-right">
+                <i class="bi bi-plus-circle pt-1">&nbsp;Create New CoverType</i>
             </a>
         </div>
     </div>
@@ -28,20 +28,18 @@
         <tr>
             <th>Id</th>
             <th>Name</th>
-            <th>Display Order</th>
             <th>Edit</th>
         <tr />
     </thead>
-    <tbody data-bind="foreach: categories">
+    <tbody data-bind="foreach: coverType">
         <tr>
             <td style="width: 10%" data-bind="text: id"></td>
             <td class="cell-width" data-bind="text: name"></td>
-            <td style="width: 20%" data-bind="text: displayOrder"></td>
             <td class="w-100 btn-group" role="group">
-                <a data-bind="attr: { href: '/Admin/Category/Edit/' + id() }" class="btn btn-primary mx-2">
+                <a data-bind="attr: { href: '/Admin/CoverType/Edit/' + id() }" class="btn btn-primary mx-2">
                     <i class="bi bi-pencil-square"></i> Edit
                 </a>
-                <a data-bind="attr: { href: '/Admin/Category/Delete/' + id() }" class="btn btn-danger mx-2">
+                <a data-bind="attr: { href: '/Admin/CoverType/Delete/' + id() }" class="btn btn-danger mx-2">
                     <i class="bi bi-trash"></i> Delete
                 </a>
             </td>
@@ -50,4 +48,4 @@
 </table>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout.mapping/2.4.1/knockout.mapping.min.js"></script>
-<script src="~/js/category.js"></script>
+<script src="~/js/coverType.js"></script>
