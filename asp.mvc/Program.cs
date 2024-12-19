@@ -1,7 +1,11 @@
 using asp.DataAccess.Data;
 using asp.DataAccess.Repository;
 using asp.DataAccess.Repository.IRepository;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.Extensions.DependencyInjection;
+using System.IO;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);

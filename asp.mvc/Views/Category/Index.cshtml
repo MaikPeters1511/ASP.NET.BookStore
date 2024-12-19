@@ -1,0 +1,37 @@
+﻿@model IEnumerable<asp.mvc.Models.Category>
+@{
+    ViewData["Title"] = "Index Category";
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+}
+
+<div class="container p-3">
+    <div class="row pt-3">
+        <div class="col-6">
+            <h2 class="text-primary">Category List</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Category" asp-action="Create" class="btn btn-primary float-right">
+                <i class="bi bi-plus-circle pt-1">&nbsp;Create New Category</i>
+            </a>
+        </div>
+    </div>
+</div>
+<table class="table table-bordered table-striped w-100 mt-3">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Display Order</th>
+        <tr />
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="cell-width">@item.Id</td>
+                <td class="cell-width">@item.Name</td>
+                <td class="cell-width">@item.DisplayOrder</td>
+            </tr>
+        }
+    </tbody>
+</table>
